@@ -42,4 +42,14 @@ class HashMap
     index = get_index(key)
     buckets[index].contains(key)
   end
+
+  def remove(key)
+    index = get_index(key)
+
+    node_index = buckets[index].find(key)
+    return nil if node_index.nil?
+
+    removed_node = buckets[index].remove_at(node_index)
+    removed_node.value[key]
+  end
 end
