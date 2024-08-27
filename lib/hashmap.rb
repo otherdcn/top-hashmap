@@ -16,20 +16,30 @@ class HashMap
     hash_code
   end
 
-  def set(key,value)
+  def get_index(key)
     hash_code = hash(key)
-    index = hash_code % buckets.size
+    hash_code % buckets.size
+  end
 
+  def set(key,value)
+    index = get_index(key)
     buckets[index].append({key => value})
   end
 
   def get(key)
-    hash_code = hash(key)
-    index = hash_code % buckets.size
+    index = get_index(key)
 
     node_index = buckets[index].find(key)
+    return nil if node_index.nil?
 
     node, _ = buckets[index].at(node_index)
+    return nil if node.nil?
+
     node.value[key]
+  end
+
+  def has?(key)
+    index = get_index(key)
+    buckets[index].contains(key)
   end
 end

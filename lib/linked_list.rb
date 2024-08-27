@@ -1,9 +1,4 @@
 module LinkedList
-  LINKED_LIST_TYPE = {
-    singly_linked: SinglyLinkedNode,
-    doubly_linked: DoublyLinkedNode
-  }
-
   class SinglyLinkedNode
     attr_accessor :value, :next_node
 
@@ -21,6 +16,11 @@ module LinkedList
       self.previous_node = nil
     end
   end
+
+  LINKED_LIST_TYPE = {
+    singly_linked: SinglyLinkedNode,
+    doubly_linked: DoublyLinkedNode
+  }
 
   class Singly
     attr_accessor :head, :tail, :size
