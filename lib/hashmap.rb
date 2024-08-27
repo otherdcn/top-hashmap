@@ -52,4 +52,15 @@ class HashMap
     removed_node = buckets[index].remove_at(node_index)
     removed_node.value[key]
   end
+
+  def length
+    size = 0
+    buckets.each { |bucket| size += bucket.size }
+    size
+  end
+
+  def clear
+    buckets.each { |bucket| bucket.clear }
+    0
+  end
 end

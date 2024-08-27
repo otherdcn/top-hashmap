@@ -242,6 +242,12 @@ module LinkedList
       "Node: #{node}\nNext: #{next_node}"
     end
 
+    def clear
+      self.head = nil
+      self.tail = nil
+      self.size = 0
+    end
+
     private :search
   end
 
