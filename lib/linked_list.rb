@@ -4,7 +4,7 @@ module LinkedList
     doubly_linked: DoublyLinkedNode
   }
 
- class SinglyLinkedNode
+  class SinglyLinkedNode
     attr_accessor :value, :next_node
 
     def initialize(value)
@@ -109,7 +109,7 @@ module LinkedList
       index = 1
 
       until node.nil?
-        if value == node.value
+        if node.value.has_key? value
           return [true, node, index]
         else
           node = node.next_node
