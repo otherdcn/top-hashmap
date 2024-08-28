@@ -63,4 +63,38 @@ class HashMap
     buckets.each { |bucket| bucket.clear }
     0
   end
+
+  def entries
+    all_entries = []
+
+    buckets.each_with_index do |bucket,idx|
+      next if bucket.traverse.nil?
+
+      all_entries.concat(bucket.traverse[1])
+    end
+
+    all_entries
+  end
+
+  def keys
+    all_entries = entries
+    all_keys = []
+
+    all_entries.each do |entry|
+      all_keys.push(entry[0])
+    end
+
+    all_keys
+  end
+
+  def values
+    all_entries = entries
+    all_values = []
+
+    all_entries.each do |entry|
+      all_values.push(entry[1])
+    end
+
+    all_values
+  end
 end

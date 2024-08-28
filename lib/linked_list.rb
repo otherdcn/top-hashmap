@@ -133,21 +133,31 @@ module LinkedList
     end
 
     def traverse
-      return "" if empty?
+      return nil if empty?
 
       node = head
       traversal = ""
+      nodes = []
 
       traversal << "( #{node.value} ) -> "
+      nodes.concat(node.value.to_a)
+
       while node.next_node != nil
         node = node.next_node
         traversal << "( #{node.value} ) -> "
+
+        nodes.concat(node.value.to_a)
       end
+
       traversal << "nil.\n"
+
+      [traversal, nodes]
     end
 
     def to_s
-      return traverse
+      return nil if traverse.nil?
+
+      traverse[0]
     end
 
     def insert_at(value, index, type = :singly_linked)
