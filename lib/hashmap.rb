@@ -23,7 +23,18 @@ class HashMap
 
   def set(key,value)
     index = get_index(key)
+    return update(key, value, index) if self.has?(key)
+
     buckets[index].append({key => value})
+  end
+
+  def update(key, value, index)
+    node_index = buckets[index].find(key)
+
+    node, _ = buckets[index].at(node_index)
+    node.value = {key => value}
+
+    get(key)
   end
 
   def get(key)
