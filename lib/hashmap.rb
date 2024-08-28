@@ -108,4 +108,6 @@ class HashMap
 
     all_values
   end
+
+  private :update, :hash
 end
