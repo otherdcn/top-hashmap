@@ -2,9 +2,16 @@ require_relative 'linked_list'
 
 class HashMap
   attr_accessor :buckets
+  attr_reader :buckets_capacity
+  LOAD_FACTOR = 0.75
 
   def initialize
-    self.buckets = Array.new(16) { LinkedList::Singly.new }
+    @buckets_capacity = 16
+    self.buckets = Array.new(buckets_capacity) { LinkedList::Singly.new }
+  end
+
+  def max_capacity
+    @max_capacity = (buckets_capacity * LOAD_FACTOR).ceil
   end
 
   def hash(key)
@@ -24,6 +31,8 @@ class HashMap
   def set(key,value)
     index = get_index(key)
     return update(key, value, index) if self.has?(key)
+
+    grow_hashmap if self.length == max_capacity
 
     buckets[index].append({key => value})
   end
@@ -109,5 +118,18 @@ class HashMap
     all_values
   end
 
-  private :update, :hash
+  def grow_hashmap
+    all_entries = entries
+    self.clear
+
+    @buckets_capacity *= 2
+    self.buckets = Array.new(buckets_capacity) { LinkedList::Singly.new }
+
+    all_entries.each do |entry|
+      key, value = entry
+      set(key, value)
+    end
+  end
+
+  private :update, :hash, :grow_hashmap, :max_capacity
 end
