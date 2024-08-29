@@ -131,5 +131,19 @@ class HashMap
     end
   end
 
+  def to_s
+    string_to_print = ""
+    buckets.each_with_index do |bucket, idx|
+      string_to_print << "Checking bucket (#{bucket.size}) #{idx}: "
+      if bucket.empty?
+        string_to_print << "Empty!\n"
+      else
+        string_to_print << "===> #{bucket}"
+      end
+    end
+
+    string_to_print
+  end
+
   private :update, :hash, :grow_hashmap, :max_capacity
 end
