@@ -1,5 +1,6 @@
-# Title of Project
+# Project: HashMap
 Following the [TOP (The Odin Project)](https://www.theodinproject.com/lessons/ruby-hashmap) course and developing a HashMap project to practice my DSA.
+> You already know the magic behind hash maps, now it’s time to write your own implementation!
 
 ## Table of Contents
 - [Installation](#installation)
