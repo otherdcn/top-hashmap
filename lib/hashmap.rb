@@ -1,8 +1,9 @@
-require_relative 'linked_list'
+require_relative "linked_list"
 
 class HashMap
   attr_accessor :buckets
   attr_reader :buckets_capacity
+
   LOAD_FACTOR = 0.75
 
   def initialize
@@ -18,7 +19,7 @@ class HashMap
     hash_code = 0
     prime_num = 31
 
-    key.each_char { |char| hash_code = prime_num * hash_code + char.ord }
+    key.each_char { |char| hash_code = (prime_num * hash_code) + char.ord }
 
     hash_code
   end
@@ -28,20 +29,20 @@ class HashMap
     hash_code % buckets.size
   end
 
-  def set(key,value)
+  def set(key, value)
     index = get_index(key)
-    return update(key, value, index) if self.has?(key)
+    return update(key, value, index) if has?(key)
 
-    grow_hashmap if self.length == max_capacity
+    grow_hashmap if length == max_capacity
 
-    buckets[index].append({key => value})
+    buckets[index].append({ key => value })
   end
 
   def update(key, value, index)
     node_index = buckets[index].find(key)
 
-    node, _ = buckets[index].at(node_index)
-    node.value = {key => value}
+    node, = buckets[index].at(node_index)
+    node.value = { key => value }
 
     get(key)
   end
@@ -52,7 +53,7 @@ class HashMap
     node_index = buckets[index].find(key)
     return nil if node_index.nil?
 
-    node, _ = buckets[index].at(node_index)
+    node, = buckets[index].at(node_index)
     return nil if node.nil?
 
     node.value[key]
@@ -80,14 +81,14 @@ class HashMap
   end
 
   def clear
-    buckets.each { |bucket| bucket.clear }
+    buckets.each(&:clear)
     0
   end
 
   def entries
     all_entries = []
 
-    buckets.each_with_index do |bucket,idx|
+    buckets.each_with_index do |bucket, _idx|
       next if bucket.traverse.nil?
 
       all_entries.concat(bucket.traverse[1])
@@ -98,29 +99,21 @@ class HashMap
 
   def keys
     all_entries = entries
-    all_keys = []
-
-    all_entries.each do |entry|
-      all_keys.push(entry[0])
+    all_entries.map do |entry|
+      entry[0]
     end
-
-    all_keys
   end
 
   def values
     all_entries = entries
-    all_values = []
-
-    all_entries.each do |entry|
-      all_values.push(entry[1])
+    all_entries.map do |entry|
+      entry[1]
     end
-
-    all_values
   end
 
   def grow_hashmap
     all_entries = entries
-    self.clear
+    clear
 
     @buckets_capacity *= 2
     self.buckets = Array.new(buckets_capacity) { LinkedList::Singly.new }
@@ -135,11 +128,11 @@ class HashMap
     string_to_print = ""
     buckets.each_with_index do |bucket, idx|
       string_to_print << "Checking bucket (#{bucket.size}) #{idx}: "
-      if bucket.empty?
-        string_to_print << "Empty!\n"
-      else
-        string_to_print << "===> #{bucket}"
-      end
+      string_to_print << if bucket.empty?
+                           "Empty!\n"
+                         else
+                           "===> #{bucket}"
+                         end
     end
 
     string_to_print

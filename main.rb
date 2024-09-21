@@ -1,18 +1,18 @@
-require_relative 'lib/hashmap'
+require_relative "lib/hashmap"
 
 data = [
-  ['apple', 'red'],
-  ['banana', 'yellow'],
-  ['carrot', 'orange'],
-  ['dog', 'brown'],
-  ['elephant', 'gray'],
-  ['frog', 'green'],
-  ['grape', 'purple'],
-  ['hat', 'black'],
-  ['ice cream', 'white'],
-  ['jacket', 'blue'],
-  ['kite', 'pink'],
-  ['lion', 'golden']
+  ["apple", "red"],
+  ["banana", "yellow"],
+  ["carrot", "orange"],
+  ["dog", "brown"],
+  ["elephant", "gray"],
+  ["frog", "green"],
+  ["grape", "purple"],
+  ["hat", "black"],
+  ["ice cream", "white"],
+  ["jacket", "blue"],
+  ["kite", "pink"],
+  ["lion", "golden"]
 ]
 
 test = HashMap.new
@@ -22,20 +22,19 @@ data.each do |item|
   test.set(fruit, colour)
 end
 
-
 operations = [
-  'Quit/Exit program',
-  'Set to HashMap',
-  'Update key in HashMap',
-  'Get value for key from HashMap',
-  'Get index for key from HashMap',
-  'Remove key/value pair from HashMap',
-  'Check if HashMap has key',
+  "Quit/Exit program",
+  "Set to HashMap",
+  "Update key in HashMap",
+  "Get value for key from HashMap",
+  "Get index for key from HashMap",
+  "Remove key/value pair from HashMap",
+  "Check if HashMap has key",
   "Check HashMap's length",
-  'Check all key/value pair entries',
-  'Check all keys from HashMap',
-  'Check all values from HashMap',
-  'Clear key/value pair entries from HashMap'
+  "Check all key/value pair entries",
+  "Check all keys from HashMap",
+  "Check all values from HashMap",
+  "Clear key/value pair entries from HashMap"
 ]
 
 operation = 1
@@ -61,7 +60,7 @@ until operation.zero?
       user_key_value_pair = gets.chomp.split(",")
       key, value = user_key_value_pair
 
-      result = test.set(key,value)
+      result = test.set(key, value)
 
       outcome = result.instance_of?(LinkedList::SinglyLinkedNode) ? "set" : "updated"
       puts "#{key} #{outcome}!"
@@ -72,7 +71,7 @@ until operation.zero?
       user_key_value_pair = gets.chomp.split(",")
       key, value = user_key_value_pair
 
-      test.set(key,value)
+      test.set(key, value)
       puts "#{key} updated!"
     when 3
       puts operations[operation]
@@ -125,7 +124,7 @@ until operation.zero?
       puts "Empty HashMap!" if all_keys.empty?
 
       all_keys.each do |entry|
-        puts "#{entry}"
+        puts entry
       end
     when 10
       puts operations[operation]
@@ -134,7 +133,7 @@ until operation.zero?
       puts "Empty HashMap!" if all_values.empty?
 
       all_values.each do |entry|
-        puts "#{entry}"
+        puts entry
       end
     when 11
       puts operations[operation]

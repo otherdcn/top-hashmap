@@ -12,7 +12,7 @@ module LinkedList
     attr_accessor :previous_node
 
     def initialize(value)
-      super value
+      super
       self.previous_node = nil
     end
   end
@@ -20,7 +20,7 @@ module LinkedList
   LINKED_LIST_TYPE = {
     singly_linked: SinglyLinkedNode,
     doubly_linked: DoublyLinkedNode
-  }
+  }.freeze
 
   class Singly
     attr_accessor :head, :tail, :size
@@ -40,11 +40,10 @@ module LinkedList
 
       if empty?
         self.head = node
-        self.tail = node # I am considering one element in the list as both a head and a tail
       else
-        self.tail.next_node = node
-        self.tail = node
+        tail.next_node = node
       end
+      self.tail = node
       self.size += 1
 
       node
@@ -72,9 +71,7 @@ module LinkedList
       return [head, nil] if index == 1
 
       node = head
-      previous_node = nil
-      for i in 1...index
-        parent_node = node
+      (1...index).each do |_|
         node = node.next_node
       end
 
@@ -85,8 +82,8 @@ module LinkedList
       return nil if empty?
 
       popped_node = tail # if only one element left in list, then tail will be pointing to head node as well
-      self.tail = at(size-1)[0]
-      self.tail.next_node = nil
+      self.tail = at(size - 1)[0]
+      tail.next_node = nil
       self.size -= 1
 
       popped_node
@@ -109,25 +106,24 @@ module LinkedList
       index = 1
 
       until node.nil?
-        if node.value.has_key? value
-          return [true, node, index]
-        else
-          node = node.next_node
-          index += 1
-        end
+        return [true, node, index] if node.value.key? value
+
+        node = node.next_node
+        index += 1
+
       end
 
       [false, nil, nil]
     end
 
     def contains(value)
-      node_exist, node, index = search(value)
+      node_exist, = search(value)
 
       node_exist
     end
 
     def find(value)
-      node_exist, node, index = search(value)
+      _, _, index = search(value)
 
       index
     end
@@ -142,7 +138,7 @@ module LinkedList
       traversal << "( #{node.value} ) -> "
       nodes.concat(node.value.to_a)
 
-      while node.next_node != nil
+      until node.next_node.nil?
         node = node.next_node
         traversal << "( #{node.value} ) -> "
 
@@ -191,7 +187,7 @@ module LinkedList
 
         self.size -= 1
       elsif node_at_index == tail
-        self.pop
+        pop
       else
         predecessor.next_node = node_at_index.next_node
         node_at_index.next_node = nil
@@ -219,7 +215,7 @@ module LinkedList
 
       new_linked_list = LinkedList.new
 
-      self.each { |node| new_linked_list.prepend(node.value) }
+      each { |node| new_linked_list.prepend(node.value) }
 
       new_linked_list
     end
@@ -245,7 +241,7 @@ module LinkedList
     end
 
     def examine_node(index)
-      node_at_index, _ = at(index)
+      node_at_index, = at(index)
       node = node_at_index.value
       next_node = node_at_index.next_node ? node_at_index.next_node.value : "null"
 
@@ -267,12 +263,11 @@ module LinkedList
 
       if empty?
         self.head = node
-        self.tail = node # I am considering one element in the list as both a head and a tail
       else
         node.previous_node = tail
-        self.tail.next_node = node
-        self.tail = node
+        tail.next_node = node
       end
+      self.tail = node
       self.size += 1
 
       node
@@ -286,7 +281,7 @@ module LinkedList
         self.tail = node # I am considering one element in the list as both a head and a tail
       else
         node.next_node = head
-        self.head.previous_node = node
+        head.previous_node = node
         self.head = node
       end
       self.size += 1
@@ -300,7 +295,7 @@ module LinkedList
       popped_node = tail # if only one element left in list, then tail will be pointing to head node as well
 
       self.tail = tail.previous_node
-      self.tail.next_node = nil
+      tail.next_node = nil
 
       popped_node.next_node = nil
       popped_node.previous_node = nil
@@ -315,7 +310,7 @@ module LinkedList
 
       shifted_node = head
       self.head = head.next_node
-      self.head.previous_node = nil if head
+      head.previous_node = nil if head
       shifted_node.next_node = nil
       self.tail = nil if shifted_node == tail # in case of deleting the only node in list
       self.size -= 1
@@ -330,7 +325,7 @@ module LinkedList
       return head if index == 1
 
       node = head
-      for i in 1...index
+      (1...index).each do |_|
         node = node.next_node
       end
 
@@ -366,14 +361,14 @@ module LinkedList
 
       if node_at_index == head
         self.head = head.next_node
-        self.head.previous_node = nil
+        head.previous_node = nil
         node_at_index.next_node = nil
 
         self.tail = nil if node_at_index == tail # in case of deleting the only node in list
 
         self.size -= 1
       elsif node_at_index == tail
-        self.pop
+        pop
       else
         node_at_index.previous_node.next_node = node_at_index.next_node
         node_at_index.next_node.previous_node = node_at_index.previous_node
@@ -404,4 +399,3 @@ module LinkedList
     end
   end
 end
-
